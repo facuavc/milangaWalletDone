@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: milangaWallet
+    buildCommand: "./build.sh"
+    env: python
+    startCommand: "gunicorn milangaWallet.wsgi:application"

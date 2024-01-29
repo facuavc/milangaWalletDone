@@ -1,0 +1,405 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<!--Este HTML Se muestra en la pagina donde se agregan recordatorios, e incluye los campos de las variables del formulario -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Recordatorios - Milanga Wallet</title>
+
+    <!-- Fuentes para la template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Estilos para la template-->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css'%}" rel="stylesheet">
+
+    <!--LOGO-->
+    <link rel = "icon" type = "image/png" href = "{% static 'milanga-logo.png' %}">
+    <!-- Para dispositivos apple -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "{% static 'milanga-logo.png' %}"/>
+</head>
+
+<body id="page-top">
+
+    <!-- Contencion de contenido-->
+    <div id="wrapper">
+
+        <!-- Barra lateral -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Barra lateral - marca -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home/">
+                <div>
+                    <img src="{%static 'img/milangalogo.jpg' %}" width="70" id="imgLogo">
+                </div>
+                <div class="sidebar-brand-text mx-3">Milanga Wallet</div>
+            </a>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/home/">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span></a>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Movimientos
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Detalles</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Vista en detalle de:</h6>
+                        <a class="collapse-item" href="/movimientos/ingresos/">Lista ingresos</a>
+                        <a class="collapse-item" href="/movimientos/gastos/">Lista gastos</a>
+                        <a class="collapse-item" href="/balance/">Lista balance</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/calendario/" >
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendario</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/recordatorios/">
+                    <i class="fas fa-bell"></i>
+                    <span>Recoratorios</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/generarReporte/">
+                    <i class="fas fa-download fa-sm text-white-50"></i>
+                    <span>Descargar Reporte</span></a>
+            </li>
+
+            <!--Separador -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Botton para achicar barra lateral -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- Fin barra lateral  -->
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Contenido principal -->
+            <div id="content">
+
+                <!-- Barra superior -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <ul class="navbar-nav ml-auto">
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Barra superior - informacion de usuario -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="/userPage" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{request.user.username|capfirst }}</span>
+                                <img class="img-profile rounded-circle" src="{%static 'img/undraw_profile.svg'%}">
+                            </a>
+                            <!-- Dropdown - Informacion de usuario -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/userPage/">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <div>
+                                <div class="dropdown-divider"></div>
+                                </div>
+                                <a class="dropdown-item" href="/logout/" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- Fin de barra superior -->
+
+                <!--Inicio del contenido de la pagina -->
+                <div class="container-fluid">
+
+                    <!-- Titulo -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Recordatorios</h1>
+    
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-12 mb-4">
+
+                            {% if alreadySent %}
+                                <div id='successPost' class='text-primary'>Recordatorio exitosamente guardado! Siga registrando!</div>
+                            {%endif%}
+
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Nuevo recordatorio</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form name='recordatoriosForm' class="user" method='post' >
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                                
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <label for='dueDate'>Fecha Limite:</label>
+                                                    <input required type="date" class="form-control form-control-user" name='dueDate' id="id-dueDate"
+                                                        placeholder="Fecha Limite" onchange='formUpdate()' value='{% now "Y-m-d" %}'>
+                                            </div>
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <label for='daysPrior'>Dias de anticipacion:</label>
+                                                    <input required type="number" min='0' max='0' step='1' name='daysPrior' class="form-control form-control-user" id="id-daysPrior" 
+                                                        placeholder="Dias de anticipacion que quiera" value='0' >
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0" id='descripcion-box'>
+                                            <label for='texto'>Descripción:</label>
+                                                <textarea name='texto' class="form-control form-control-user" id="id-descripcion"
+                                                    placeholder="Descripción" rows='1' maxlength="250"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <input type="submit" value='Registrar recordatorio' class="btn btn-primary btn-user btn-block">
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row'>
+
+                    <div class="col-lg-12 mb-4">
+                        <div class="card shadow mb-4">
+            
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Tabla de Recordatorios</h6>
+    
+                            </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    {% csrf_token %}
+
+                                    
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha Límite</th>
+                                                <th>Descripción</th>
+                                                <th>Dias de Anticipación</th>
+                                                <th> </th>
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+                                            {% for values in data %}
+                                                <tr>
+
+                                                    <td>{{ values.dueDate|date:"d/m/y"  }}</td>
+                                                    <td>{{ values.texto }}</td>
+                                                    <td>{{values.daysPrior}}</td>
+                                                    <td class='text-center'>
+                                                        <a href="/eliminarRecordatorio/{{ values.id }}/" class="btn btn-danger">
+                                                            <i class="fas fa-trash-alt" ></i> Eliminar
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+
+                                            {% endfor %}
+                                        </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                </div>
+
+            </div>
+            <!-- Fin del contenido principal -->
+
+            <!-- Pie de pagina -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Milanga Co. 2023</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+
+    </div>
+    <!-- Fin de contencion de contenido -->
+
+    <!-- Boton para subir -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Funcion de boton para subir -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccionar "Cerrar sesión" si esta listo para salir.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="/logout/">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- jQuery -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- DataTables scripts -->
+<script src="{%static 'vendor/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{%static 'vendor/datatables/dataTables.bootstrap4.min.js'%}"></script>
+
+<!-- Your custom script -->
+<script src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js"></script>
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+<!-- Funcion para la creacion de  -->
+<script>
+
+    //Setea la fecha mínima para el selector de día el día de mañana (también valor predeterminado)
+    var today = new Date().toISOString().split("T")[0];
+
+    var tomorrow = today.split('-');
+
+    tomorrow[2]=parseInt(tomorrow[2])+1;
+
+    tomorrow=new Date(parseInt(tomorrow[0]),parseInt(tomorrow[1])-1,parseInt(tomorrow[2])).toISOString().split("T")[0];
+
+    document.getElementById('id-dueDate').value = tomorrow;
+    document.getElementById('id-dueDate').min= tomorrow;
+
+    //Crea la tabla, con índices en español y ordenada según la primera columna, que se setea a fecha
+        var table = $('#dataTable').DataTable({
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            order: [[0,'desc']], 
+            paging: true, 
+            searching: true,
+            columnDefs: [
+            { type: "date-eu", 
+            targets: [0],
+
+            }
+        ]
+        });
+        
+        //Calcula la diferencia de días entre dos fechas
+        function dateDiffInDays(dateString1, dateString2) {
+            // Convierte las strings en objetos de fecha
+            var date1 = parseDate(dateString1);
+            var date2 = parseDate(dateString2);
+        
+            // Calcula la diferencia en milisegundos
+            var timeDifference = Math.abs(date2 - date1);
+        
+            // Convierte esa diferencia a días
+            var daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+        
+            return daysDifference;
+        }
+        
+        // Convierte strings en fechas
+        function parseDate(dateString) {
+            // Separa la string en cada elemento de la fecha
+            var parts = dateString.split('-');
+        
+            // Crea un elemento de fecha con esos datos
+            var year = parseInt(parts[0], 10) + 2000; // Asume que es un año de dos dígitos
+            var month = parseInt(parts[1], 10) - 1; // Los meses van desde 0 para javascript
+            var day = parseInt(parts[2], 10);
+        
+            return new Date(year, month, day);
+        }
+    
+
+        //Cambia el mínimo de días previos para los recordatorios tal que no se pueda poner uno para un día pasado
+        function formUpdate(){
+        var dueDate = document.getElementById('id-dueDate').value;
+        var currentDate = new Date().toISOString().split("T")[0];
+
+        var maxDays = dateDiffInDays(dueDate, currentDate);
+
+        document.getElementById('id-daysPrior').max = maxDays-1;
+
+        }
+</script>
+
+</body>
+
+
+</html>

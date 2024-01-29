@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<!--En una tarjeta, se exponen los campos del formulario de ingreso a la aplicacion, donde se creara una cuenta -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Registro - Milanga Wallet</title>
+
+    <!-- Fuentes para la template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"rel="stylesheet">
+
+    <!-- Estilos para la  template-->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+
+   <!--LOGO-->
+   <link rel = "icon" type = "image/png" href = "{% static 'milanga-logo.png' %}">
+   <!-- Para dispositivos apple -->
+   <link rel = "apple-touch-icon" type = "image/png" href = "{% static 'milanga-logo.png' %}"/>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!--Nueva fila en la tarjeta-->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Crear cuenta</h1>
+                            </div>
+                            <form onsubmit="return checkform()" name='registerform' class="user" method='post'>
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input required type="text" class="form-control form-control-user" name='first_name' id="exampleFirstName"
+                                            placeholder="Nombre" value='{{request.POST.first_name}}'>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input required type="text" class="form-control form-control-user" name='last_name' id="exampleLastName"
+                                            placeholder="Apellido" value='{{request.POST.last_name}}'>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class='form-errors' id='name-errors'>{{errors.first_name.0}}</div>
+                                    <div class='form-errors' id='lastname-errors'>{{errors.last_name.0}}</div>
+                                </div>
+                                <div class="form-group">
+                                    <input required type="text" name='username' class="form-control form-control-user" id="exampleInputUsername"
+                                        placeholder="Nombre de usuario" value='{{request.POST.username}}'>
+                                        
+                                </div>
+                                <div class="form-group row">
+                                    <div class='form-errors' id='user-errors'>{{errors.username.0}}</div>
+                                </div>
+                                <div class="form-group">
+                                    <input required type="email" name='email' class="form-control form-control-user" id="exampleInputEmail"
+                                        placeholder="Correo electronico" value='{{request.POST.email}}'>
+                                        
+                                </div>
+                                <div class="form-group row">
+                                    <div class='form-errors' id='email-errors'>{{errors.email.0}}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input required type="password" name='password1' class="form-control form-control-user"
+                                            id="exampleInputPassword" placeholder="Contraseña" value='{{request.POST.password1}}'>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input required type="password" name='password2' class="form-control form-control-user"
+                                            id="exampleRepeatPassword" placeholder="Repetir contraseña" value='{{request.POST.password2}}'>
+
+                                    </div>
+                                </div>
+                                <div class="custom-button" onclick="togglePassword('password1'); togglePassword('password2')">Ver contraseña</div>
+    
+                                <div class="form-group row">
+                                    <div class='form-errors' id='password-errors'>{{errors.password.0}}</div>
+                                </div>
+                                <input type="submit" value='Registrar cuenta' class="btn btn-primary btn-user btn-block">
+                            </form>
+                        
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="/forgotPassword/">Olvidaste tu contraseña?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="/login/">Ya tienes cuenta? Ingresa!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+
+    <!-- Scripts para la pagina-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    <script>
+        //Controlar la validez de la contraseña
+        function passwCheck(passw){
+            if (passw.length<8 || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(passw)){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        //Control de que las contraseñas sean iguales y/o validas
+        function checkform() {
+            var password = document.registerform.password1.value;
+
+            if(document.registerform.password1.value != document.registerform.password2.value) {
+                $('#password-errors').text("Las contraseñas no coinciden.");
+                return false;
+            } else if (!passwCheck(password)){
+                $('#password-errors').text('La contraseña ingresada no es valida. Recuerde que debe tener al menos 8 caracteres, una letra mayúscula, una minúscula, y un numero');
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
+
+    <script>
+        // Cambia el tipo de entrada entre "password" y "text"
+        function togglePassword(password) {
+            var passwordInput = document.getElementsByName(password)[0];
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,335 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<!--Esta template de HTML expone los campor del formulario de generar movimientos, con las barras lateral y superior como contexto -->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Nuevo movimiento - Milanga Wallet</title>
+
+    <!-- Fuentes para la template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Estilos para la template-->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!--LOGO-->
+    <link rel = "icon" type = "image/png" href = "{% static 'milanga-logo.png' %}">
+    <!-- Para dispositivos apple -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "{% static 'milanga-logo.png' %}"/>
+</head>
+
+<body id="page-top">
+
+    <!-- Contenido de pagina -->
+    <div id="wrapper">
+
+        <!-- Barra lateral -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Barra lateral - marca-->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home/">
+                <div>
+                    <img src="{%static 'img/milangalogo.jpg' %}" width="70" id="imgLogo">
+                </div>
+                <div class="sidebar-brand-text mx-3">Milanga Wallet</div>
+            </a>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/home/">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span></a>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Movimientos
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Detalles</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Vista en detalle de:</h6>
+                        <a class="collapse-item" href="/movimientos/ingresos/">Lista ingresos</a>
+                        <a class="collapse-item" href="/movimientos/gastos/">Lista gastos</a>
+                        <a class="collapse-item" href="/balance/">Lista balance</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/calendario/" >
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendario</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/recordatorios/">
+                    <i class="fas fa-bell"></i>
+                    <span>Recoratorios</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/generarReporte/">
+                    <i class="fas fa-download fa-sm text-white-50"></i>
+                    <span>Descargar Reporte</span></a>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- Final de la barra lateral  -->
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Contenido principal -->
+            <div id="content">
+
+                <!-- Barra superior -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <ul class="navbar-nav ml-auto">
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Barra superior - informacion del usuario -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="/userPage" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{request.user.username|capfirst }}</span>
+                                <img class="img-profile rounded-circle" src="{%static 'img/undraw_profile.svg'%}">
+                            </a>
+                            <!-- Dropdown - Informacion del usuario-->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/userPage/">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <div>
+                                <div class="dropdown-divider"></div>
+                                </div>
+                                <a class="dropdown-item" href="/logout/" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- Final de la barra superior -->
+
+                <!-- Inicio del contenido-->
+                <div class="container-fluid">
+
+                    <!-- Titulo -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">{{type|capfirst}}</h1>
+
+                        <div style='display:flex; justify-content:flex-end;'>
+                            {% if type == 'gastos' %}
+                            <a href="/newMovimiento/ingresos/" id="anadir-ingresos" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm boton-anadir"><i
+                                class="fas fa-plus" ></i> Anadir Ingreso</a>
+                            {%else%}
+                            <a href="/newMovimiento/gastos/" id="anadir-gastos" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm boton-anadir" ><i
+                                    class="fas fa-plus"></i> Anadir Gasto</a>
+                            {%endif%}
+                        </div>
+                    </div>
+
+                    
+                    <!-- Inicio del formulario de completacion -->
+                    <div class="row">
+
+                        <div class="col-lg-12 mb-4">
+
+                            {% if alreadySent %}
+                                <div id='successPost' class='text-primary'>{{type|capfirst|slice:":-1"}} exitosamente guardado! Siga registrando!</div>
+                            {%endif%}
+
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Nuevo {{type|slice:":-1"}}</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form name='newMovimientoform' class="user" method='post'>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                                
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for='type'>Tipo de {{type|slice:":-1"}}:</label>
+                                            
+                                                <select required name="type" class="form-control col-sm-6 mb-3 mb-sm-0" id="selector">
+                                                    <option selected disabled value=''>Tipos</option>
+                                                    {% if type == 'gastos' %}
+                                                    <option value='Alquiler'> Alquiler </option>
+                                                    <option value='Servicios publicos'>Servicios publicos (Agua/Electricidad/Gas)</option>
+                                                    <option value='Mantenimiento de hogar'> Mantenimiento del hogar</option>
+                                                    <option value='Transporte publico'> Transporte público </option>
+                                                    <option value='Combustible/Gastos fijos del auto'> Combustible/Gastos fijos del auto </option>
+                                                    <option value='Compra de Comida'> Compra de comida </option>
+                                                    <option value='Comida afuera'> Comida afuera </option>
+                                                    <option value='Supermercado'> Supermercado </option>
+                                                    <option value='Salud'> Salud </option>
+                                                    <option value='Entretenimiento'> Entretenimiento </option>
+                                                    <option value='Educación'> Educación </option>
+                                                    <option value='Ropa y calzado'> Ropa y calzado </option>
+                                                    <option value='Cuidado personal'> Cuidado personal </option>
+                                                    <option value='Mascotas'> Mascotas </option>
+                                                    <option value='Regalos'> Regalos </option>
+                                                    <option value='Otros'> Otros </option>
+                                                    {% else %}
+                                                    <option value='Salario'> Saldo Inicial </option>
+                                                    <option value='Salario'> Salario </option>
+                                                    <option value='Préstamo'> Préstamo </option>
+                                                    <option value='Actividades secundarias'> Actividades secundarias </option>
+                                                    <option value='Pensiones'> Pensiones </option>
+                                                    <option value='Otros'> Otros </option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <label for='date'>Fecha:</label>
+                                                    <input required type="date" class="form-control form-control-user" name='date' id="id-date"
+                                                        placeholder="Fecha" value='{% now "Y-m-d" %}'>
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0" id='descripcion-box'>
+                                            <label for='description'>Descripción:</label>
+                                                <textarea name='description' class="form-control form-control-user" id="id-descripcion"
+                                                    placeholder="Descripción" rows='1' maxlength="100"></textarea>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for='value'>Monto Total ($):</label>
+                                                <input required type="number" min='0' step='0.01' name='value' class="form-control form-control-user" id="id-value"
+                                                    placeholder="Ingrese un monto">
+                                            </div>
+                                                
+                                            {% if type == 'gastos' %}
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for='nPayments'>Número de Cuotas (mensuales):</label>
+                                                <input required type="number" min='1' step='1' name='nPayments' class="form-control form-control-user" id="id-nPayments" 
+                                                    placeholder="Ingrese la cantidad de cuotas" value='1' >
+                                            </div>
+                                            {% else %}
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for='repeat'>Cantidad de repeticiones (se acreditan una vez por mes):</label>
+                                                <input required type="number" min='1' step='1' name='repeat' class="form-control form-control-user" id="id-repeat" 
+                                                    placeholder="cantidad de meses que quiere que se repita" value='1'>
+                                            </div>
+                                            {% endif %} 
+                                        </div>
+                                        
+                                        {% if type == 'gastos' %}
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for='rate'>Tasa de interés (%):</label>
+                                                <input required type="number" min='0' step='0.5' name='rate' class="form-control form-control-user" id="id-rate"
+                                                     placeholder="Interés" value='0'>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+
+                                        <input type="submit" value='Registrar {{type}}' class="btn btn-primary btn-user btn-block">
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Final del contenido principal -->
+
+            <!-- Pie de pagina -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Milanga Co. 2023</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+
+    </div>
+    <!-- Final del   contenedor de pagina -->
+
+    <!-- Botor para subir sobre la pagina -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Funcion de cerrar sesion-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccionar "Cerrar sesión" si esta listo para salir.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="/logout/">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
+    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+
+    <!-- Scripts para las paginas-->
+    <script src="{%static 'js/sb-admin-2.min.js'%}"></script>
+
+
+</body>
+
+</html>

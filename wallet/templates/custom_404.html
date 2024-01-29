@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<!-- Este html fue extraido mayormente de internet, presenta un gift y renderiza cuando hay un error 404 (no se encuentra la ruta)-->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Página no encontrada - Milanga Wallet</title>
+
+    <!-- Fuentes para esta template template-->
+    <link href="{% static '/css/cavernicola.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'vendor/fontawesome-free/css/all.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Estilos para esta template-->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!--LOGO-->
+    <link rel = "icon" type = "image/png" href = "{% static 'milanga-logo.png' %}">
+    <!-- Para dispositivos apple -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "{% static 'milanga-logo.png' %}"/>
+
+</head>
+
+<!-- Cuerpo de pagina -->
+<section class="page_404">
+    <div class="container">
+      <div class="row"> 
+      <div class="col-sm-12 ">
+      <div class="col-sm-10 col-sm-offset-1  text-center">
+      <div class="four_zero_four_bg">
+        <h1 class="text-center ">404</h1>
+      
+      
+      </div>
+      
+      <div class="contant_box_404">
+      <h3 class="h3 text-gray-900 mb-4">
+      Parece que estas perdido
+      </h3>
+      
+      <p>La pagina que estas buscando no esta disponible</p>
+      
+      <a href="/home/" class="link_404">Volver a inicio</a>
+    </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  </section>

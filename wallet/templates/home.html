@@ -1,0 +1,449 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="es">
+<!--En este HTML se realiza la configuracion de los graficos y contexto de la pagina principal, incluyendo balances y carteles -->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Panel principal - Milanga Wallet</title>
+
+    <!-- Fuentes para la template -->
+    <link href="{% static 'vendor/fontawesome-free/css/all.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Estilos para la template-->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!--LOGO-->
+    <link rel = "icon" type = "image/png" href = "{% static 'milanga-logo.png' %}">
+    <!-- Para dispositivos apple -->
+    <link rel = "apple-touch-icon" type = "image/png" href = "{% static 'milanga-logo.png' %}"/>
+</head>
+
+<body id="page-top">
+
+    <!-- Cierre de pagina -->
+    <div id="wrapper">
+
+        <!-- Barra lateral -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Barra lateral - marca-->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home/">
+                <div>
+                    <img src="{%static 'img/milangalogo.jpg' %}" width="70" id="imgLogo"></img>
+                </div>
+                <div class="sidebar-brand-text mx-3">Milanga Wallet</div>
+            </a>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/home/">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span></a>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Movimientos
+            </div>
+
+            <!-- Menu de detalles -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Detalles</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Vista en detalle de:</h6>
+                        <a class="collapse-item" href="/movimientos/ingresos/">Lista ingresos</a>
+                        <a class="collapse-item" href="/movimientos/gastos/">Lista gastos</a>
+                        <a class="collapse-item" href="/balance/">Lista balance</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/calendario/" >
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendario</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/recordatorios/">
+                    <i class="fas fa-bell"></i>
+                    <span>Recoratorios</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/generarReporte/">
+                    <i class="fas fa-download fa-sm text-white-50"></i>
+                    <span>Descargar Reporte</span></a>
+            </li>
+
+            <!-- Separador -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- Final de la barra lateral -->
+
+        <!-- Pagina principal -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Contenido principal -->
+            <div id="content">
+
+                <!-- Barra superior -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <ul class="navbar-nav ml-auto">
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Informacion de usuario -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="/userPage" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{request.user.username|capfirst }}</span>
+                                <img class="img-profile rounded-circle" src="{%static 'img/undraw_profile.svg'%}">
+                            </a>
+                            <!-- Dropdown - informacion de usuario-->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/userPage/">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <div >
+                                <div class=" dropdown-divider"></div>
+                                </div>
+                                <a class="dropdown-item" href="/logout/" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Final de la barra superior -->
+
+                <!-- Contenido de la pagina  -->
+                <div class="container-fluid">
+
+                    <!-- Titulo -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Inicio</h1>
+
+                        <div style='display:flex; justify-content:flex-end;'>
+                            <a href="/newMovimiento/ingresos/" id="anadir-ingresos" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm boton-anadir"><i
+                                class="fas fa-plus" ></i> Anadir Ingreso</a>
+                            <a href="/newMovimiento/gastos/" id="anadir-gastos" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm boton-anadir" ><i
+                                    class="fas fa-plus"></i> Anadir Gasto</a>
+                        </div>
+                    </div>
+
+                    <!-- Finla de contenido - recuadros saldo -->
+                    <div class="row">
+
+                        <!-- Dinero Disponible -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Dinero Disponible</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{datos.saldo|floatformat:2|intcomma }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ingresos -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Ingreso Total</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{datos.ingresos|floatformat:2|intcomma }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gastos -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1"> Gasto Total
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">${{datos.gastos|floatformat:2|intcomma }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                    {% if info%}
+                    <!-- Content Row - graficos comparacion -->
+
+                    <div class="row">
+
+                        <!-- Grafico de puntos -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Opciones de visualizacion - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Vista Histórica de Gastos e Ingresos</h6>
+                                    <div>
+                                        <select class='select-field' id='area-select' onchange='handleOptionChange("area")'>
+                                            <option value='years'>Últimos 8 años</option>
+                                            <option value='months'>Anual</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div id='yearsAreaSelect' style='display:none; text-align: right;'>
+                                    <select class='select-field' id='year-select' onchange='secondaryOnChange("area-select")'>
+                                        {%for i in yearsRange %}
+                                            <option value='{{i}}'>{{i}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                                <!-- Cuadrado de grafico -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grafico de torta -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Opciones de visualizacion - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Balance</h6>
+                                </div>
+                                <!-- Cuadro de grafico -->
+                                <div class="card-body">
+                                    <div class="chart-pie pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Dinero Disponible
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-danger"></i> Dinero Gastado
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila de contenido - Diagramas tipo -->
+                    <div class="row">
+
+                        <div class="col-lg-12 mb-4">
+
+                            <!-- Cuerpo de grafico de barras por categoria de gastos-->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Categoria de los Gastos</h6>
+                                </div>
+                                <div class="card-body">
+                                    {%for i in gastosCat%}
+                                        <h4 class="small font-weight-bold">{{i.category}} <span
+                                                class="float-right">
+                                                {%if i.value < 1 %}
+                                                    < 1%
+                                                {%else%}
+                                                    {{i.value}}%
+                                                {%endif%}
+                                            </span></h4>
+                                        <div class="progress mb-4">
+                                            <div class="progress-bar {{i.color_class}}" role="progressbar" style="width: {{i.value}}%"
+                                                aria-valuenow="{{i.value}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-12 mb-4">
+
+                            <!-- Cuerpo del gráfico de barras según la categoria de ingresos -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Categoria de los Ingresos</h6>
+                                </div>
+                                <div class="card-body">
+                                    {%for i in ingresosCat%}
+                                        <h4 class="small font-weight-bold">{{i.category}} <span
+                                                class="float-right">
+                                                {%if i.value < 1 %}
+                                                    >1%
+                                                {%else%}
+                                                    {{i.value}}%
+                                                {%endif%}
+                                            </span></h4>
+                                        <div class="progress mb-4">
+                                            <div class="progress-bar {{i.color_class}}" role="progressbar" style="width: {{i.value}}%"
+                                                aria-valuenow="{{i.value}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endif%}
+                </div>
+
+            </div>
+            <!-- Final del contenido principal -->
+            
+
+            <!-- Pie de pagina -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Milanga Co. 2023</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!--Final del contenido de pagina -->
+
+    </div>
+
+    <!-- Boton para subir al inicio de pagina-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Funcion para salir de la cuenta-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccionar "Cerrar sesión" si esta listo para salir.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="/logout/">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var myData = {{ graficosData|safe }};
+        var infoData = {'saldo':{{ datos.saldo }},'gasto':{{datos.gastos}}};
+    </script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
+    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+
+    <!--Scripts de la pagina-->
+    <script src="{%static 'js/sb-admin-2.min.js'%}"></script>
+
+    <!-- Plugins de la pagina -->
+    <script src="{%static 'vendor/chart.js/Chart.min.js'%}"></script>
+
+    <!-- Scripts de la pagina que crean los gráficos -->
+    <script src="{%static 'js/demo/chart-area-demo.js'%}"></script>
+    <script src="{%static 'js/demo/chart-pie-demo.js'%}"></script>
+
+
+    <script>
+        //Crea el cuadro de área
+        var areaChart = createChart(document.getElementById("myAreaChart"),'years',myData);
+    
+        //Modifica el grafico de área según cambia el selector principal del gráfico de área
+        function handleOptionChange(graph) {
+            var id = graph+'-select';
+            var selectedValue = document.getElementById(id).value;
+          
+            if (graph=='area'){
+                areaChart.destroy();
+                if(selectedValue == 'years') {
+                    $('#yearsAreaSelect').hide();
+                    areaChart = createChart(document.getElementById("myAreaChart"),selectedValue,myData)
+                }else{
+                    $('#yearsAreaSelect').show();
+                    year = $('#yearsAreaSelect select').val();           
+                    areaChart = createChart(document.getElementById("myAreaChart"),selectedValue,myData,year)
+                }
+                
+            }
+        }
+
+        //Activa la función anterior cuando cambia el selector secundario
+        function secondaryOnChange(id) {
+            document.getElementById(id).onchange();
+        }
+    </script>
+</body>
+
+</html>

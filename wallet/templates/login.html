@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<!--Sobre una tarjeta blanca se presenta un jif de bienvenida y los campos para compretar el formulario de iniciar sesion-->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Iniciar sesion - Milanga Wallet</title>
+    
+    <!-- Fuentes para la template -->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Estilos para la template -->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+
+   <!--LOGO-->
+   <link rel = "icon" type = "image/png" href = "{% static 'milanga-logo.png' %}">
+   <!-- Para dispositivos apple -->
+   <link rel = "apple-touch-icon" type = "image/png" href = "{% static 'milanga-logo.png' %}"/>
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Recuedro externo -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Cudrado que contiene -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-Bienvenida-gif"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">¡Bienvenido!</h1>
+                                    </div>
+                                    <form class="user" method='post'>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type= 'text' class="form-control form-control-user"
+                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                placeholder="Usuario" name='username'>
+                                        </div>
+                                        <div class="form-group password-container">
+                                            <input type="password" name='password' class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Contraseña">
+                                                <div id='eyeIcon' class="round-button"  onclick="togglePassword()"><i class="fas fa-eye"></i></div>
+                                        </div>
+                                        {% if not account %}
+                                            <p id='error-login'>{{loginError}}</p> 
+                                        {% endif %}    
+                                        
+                                        <input type="submit" value='Ingresar' class="btn btn-primary btn-user btn-block">
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="/forgotPassword/">Olvido su contraseña?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="/register/">Crear cuenta!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- scripts -->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementsByName("password")[0];
+            
+            // Cambia el tipo de entrada entre "password" y "text" (para poder visualizar)
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+</body>
+
+</html>
